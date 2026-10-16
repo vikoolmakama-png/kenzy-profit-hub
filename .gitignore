@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.env
+.venv/
+venv/
+*.db
+*.db-*
+*.db.*
+app.py.*
+app_backup*.py
+app_before*.py
+app_history_backup.py
+dashboard_before_*.html
+convert_to_postgres.py
+templates/*backup*
+templates/*.bak

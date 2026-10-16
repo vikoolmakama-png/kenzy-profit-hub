@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to Kenzy Profit Hub{% endblock %}
+
+{% block content %}
+<main class="container">
+    <section class="hero">
+        <div>
+            <div class="badge">✦ YOUR FINANCIAL JOURNEY STARTS HERE</div>
+
+            <h1>
+                Build Your<br>
+                <span>Financial Future.</span>
+            </h1>
+
+            <p>
+                Welcome to Kenzy Profit Hub. Discover a modern platform
+                designed to help you explore investment opportunities,
+                understand your financial goals, and manage your account
+                in one place.
+            </p>
+
+            <div class="hero-actions">
+                <a href="{{ url_for('register') }}" class="btn btn-primary">
+                    Create Free Account &nbsp; →
+                </a>
+                <a href="{{ url_for('login') }}" class="btn btn-outline">
+                    Sign In
+                </a>
+            </div>
+
+            <div class="hero-note">
+                ✓ Simple account registration<br>
+                ✓ Personal account dashboard<br>
+                ✓ Clear account information
+            </div>
+        </div>
+
+        <div class="visual">
+            <div class="visual-label">KENZY PROFIT HUB</div>
+            <div class="visual-title">Think Smart. <span>Grow Wisely.</span></div>
+
+            <div class="chart">
+                <div class="bar" style="height:25%"></div>
+                <div class="bar" style="height:39%"></div>
+                <div class="bar" style="height:32%"></div>
+                <div class="bar" style="height:53%"></div>
+                <div class="bar" style="height:47%"></div>
+                <div class="bar" style="height:68%"></div>
+                <div class="bar" style="height:61%"></div>
+                <div class="bar" style="height:84%"></div>
+                <div class="bar" style="height:75%"></div>
+                <div class="bar" style="height:100%"></div>
+            </div>
+
+            <div class="visual-footer">
+                <div>YOUR GOALS<strong>Plan with purpose</strong></div>
+                <div>YOUR FUTURE<strong>Grow with knowledge</strong></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature">
+            <div class="feature-icon">🌱</div>
+            <h3>Start Your Journey</h3>
+            <p>Create an account and get access to your personal member area.</p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">🔐</div>
+            <h3>Your Personal Account</h3>
+            <p>Sign in to access your account using your registered phone number.</p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">📈</div>
+            <h3>Make Informed Decisions</h3>
+            <p>Explore financial education and understand investment risks before committing money.</p>
+        </div>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Withdraw | Kenzy Profit Hub{% endblock %}
+{% block content %}
+<div class="auth-wrap"><div class="auth-card">
+<div class="badge">WITHDRAWAL REQUEST</div>
+<h1>Request a <span style="color:var(--green)">Withdrawal</span></h1>
+<p class="auth-subtitle">Enter the amount and bank account details for your request.</p>
+
+<form method="POST" action="{{ url_for('withdraw') }}">
+<div class="field"><label>Withdrawal Amount (₦)</label>
+<input name="amount" type="number" min="1000" max="100000000" step="0.01" required></div>
+<div class="field"><label>Account Number</label>
+<input name="account" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" required></div>
+<div class="field"><label>Account Name</label>
+<input name="account_name" maxlength="100" required></div>
+<div class="field"><label>Bank Name</label>
+<input name="bank" maxlength="100" required></div>
+<button class="btn btn-primary full-width" type="submit">Submit Withdrawal Request</button>
+</form>
+
+<p class="hero-note">Requests are pending review. This form does not verify an available balance or send money.</p>
+<div class="auth-bottom"><a href="{{ url_for('dashboard') }}">← Back to Dashboard</a></div>
+</div></div>
+{% endblock %}

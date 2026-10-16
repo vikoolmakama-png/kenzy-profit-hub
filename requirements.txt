@@ -1,0 +1,4 @@
+Flask
+gunicorn
+psycopg[binary]
+APScheduler

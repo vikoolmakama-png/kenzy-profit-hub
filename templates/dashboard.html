@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Kenzy Profit Hub{% endblock %}
+{% block content %}
+<main class="container">
+<section class="dashboard" style="max-width:1100px">
+<div class="badge">MEMBER DASHBOARD</div>
+<h1>Welcome, <span style="color:var(--green)">{{ user["full_name"] }}</span>!</h1>
+<p style="color:var(--muted)">Your Kenzy Profit Hub account overview.</p>
+
+
+
+
+
+
+<div class="features" style="grid-template-columns:1fr">
+<div class="feature" style="border-color:var(--green);text-align:center">
+<div class="feature-icon">💰</div>
+<h3>Available Balance</h3>
+<h2 style="font-size:36px;color:var(--green)">
+₦{{ "{:,.2f}".format(balance|default(0)) }}
+</h2>
+<p style="color:var(--muted)">Confirmed funds in your account</p>
+</div>
+</div>
+
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin:5px 0 20px">
+<a href="{{ url_for('deposit') }}" class="btn btn-primary">＋ Deposit</a>
+<a href="{{ url_for('withdraw') }}" class="btn btn-outline">↗ Withdraw</a>
+<a href="{{ url_for('transaction_history') }}" class="btn btn-outline">📜 Transaction History</a>
+<a href="{{ url_for('referral') }}" class="btn btn-primary">👥 Refer &amp; Earn</a>
+</div>
+
+
+
+
+
+
+
+<h2>Investment Plans</h2>
+<p style="color:var(--muted)">Illustrative calculations using 7% of the selected amount per day.</p>
+
+<div class="features" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">
+{% for plan in [
+{"name":"Starter","amount":5000},
+{"name":"Bronze","amount":15000},
+{"name":"Silver","amount":35000},
+{"name":"Gold","amount":50000},
+{"name":"Platinum","amount":100000},
+{"name":"Diamond","amount":150000}
+] %}
+<div class="feature" style="border-color:rgba(32,232,120,.35)">
+<div class="badge">{{ plan.name }} PLAN</div>
+<h2 style="font-size:27px;color:var(--green)">₦{{ "{:,.0f}".format(plan.amount) }}</h2>
+<p>Daily rate: <strong>7%</strong></p>
+<h3 style="color:var(--green)">₦{{ "{:,.0f}".format(plan.amount * 0.07) }} / day</h3>
+<p>365-day projection:<br><strong>₦{{ "{:,.0f}".format(plan.amount * 0.07 * 365) }}</strong></p>
+<form method="POST" action="{{ url_for('select_plan') }}">
+<input type="hidden" name="amount" value="{{ plan.amount }}">
+<button class="btn btn-primary" type="submit" style="width:100%">Activate Plan</button>
+</form>
+</div>
+{% endfor %}
+</div>
+
+<div class="message success">
+These figures are mathematical illustrations, not guaranteed earnings.
+Plan requests require review; submitting one does not activate an investment.
+</div>
+<a href="{{ url_for('logout') }}" class="btn btn-outline">Log Out</a>
+</section>
+</main>
+{% endblock %}

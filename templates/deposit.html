@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Deposit | Kenzy Profit Hub{% endblock %}
+{% block content %}
+<div class="auth-wrap"><div class="auth-card">
+<div class="badge">FUNDING REQUEST</div>
+<h1>Make a <span style="color:var(--green)">Deposit</span></h1>
+<p class="auth-subtitle">Use the payment details below and submit your transfer information.</p>
+
+<div class="feature">
+<h3>Bank Transfer Details</h3>
+<p>Account number: <strong>4567321956</strong></p>
+<p>Bank: <strong>Fidelity Bank</strong></p>
+<p>Account name: <strong>NNANTA CANON</strong></p>
+</div>
+
+<form method="POST" action="{{ url_for('deposit') }}">
+<div class="field"><label>Sender's Full Name</label>
+<input name="sender" maxlength="100" required></div>
+<div class="field"><label>Amount Sent (₦)</label>
+<input name="amount" type="number" min="1" max="100000000" step="0.01" required></div>
+<div class="field"><label>Transfer Reference (Optional)</label>
+<input name="reference" maxlength="100"></div>
+<button class="btn btn-primary full-width" type="submit">Submit Deposit Request</button>
+</form>
+
+<p class="hero-note">Submitting this form does not confirm that funds were received. Verify the recipient before transferring money.</p>
+<div class="auth-bottom"><a href="{{ url_for('dashboard') }}">← Back to Dashboard</a></div>
+</div></div>
+{% endblock %}

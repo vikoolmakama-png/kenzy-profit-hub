@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Login | Kenzy Profit Hub{% endblock %}
+
+{% block content %}
+<div class="auth-wrap">
+    <div class="auth-card">
+        <div class="badge">WELCOME BACK</div>
+
+        <h1>Welcome <span style="color:var(--green)">Back.</span></h1>
+
+        <p class="auth-subtitle">
+            Sign in to your Kenzy Profit Hub account.
+        </p>
+
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="field">
+                <label for="phone">Phone Number</label>
+                <input id="phone" name="phone" type="tel"
+                       placeholder="Enter your registered phone number"
+                       autocomplete="username" required>
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password"
+                       placeholder="Enter your password"
+                       autocomplete="current-password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary full-width">
+                Login to My Account →
+            </button>
+        </form>
+
+        <div class="auth-bottom">
+            Don't have an account yet?<br>
+            <a href="{{ url_for('register') }}">Create an account</a>
+            <br><br>
+            <a href="{{ url_for('welcome') }}">← Back to Welcome Page</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

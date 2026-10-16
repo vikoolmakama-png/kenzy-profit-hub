@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Refer & Earn | Kenzy Profit Hub{% endblock %}
+{% block content %}
+<main class="container">
+<section class="dashboard" style="max-width:700px">
+<div class="badge">INVITE FRIENDS</div>
+<h1>Refer &amp; Earn</h1>
+<p style="color:var(--muted)">Share your referral code with friends when they register.</p>
+
+<div class="feature" style="text-align:center;border-color:var(--green)">
+<h3>Your Referral Code</h3>
+<h2 style="font-size:32px;color:var(--green);overflow-wrap:anywhere">{{ code }}</h2>
+<button class="btn btn-primary" type="button"
+onclick="navigator.clipboard.writeText({{ code|tojson }}).then(()=>alert('Referral code copied!'))">
+Copy Referral Code
+</button>
+<hr style="margin:25px 0;opacity:.2">
+<h3>Your Referral Link</h3>
+<p style="overflow-wrap:anywhere">{{ referral_link }}</p>
+<button class="btn btn-outline" type="button"
+onclick="navigator.clipboard.writeText({{ referral_link|tojson }}).then(()=>alert('Referral link copied!'))">
+Copy Referral Link
+</button>
+</div>
+
+<p style="color:var(--muted);margin-top:20px">
+Referral rewards are not automatically paid. Any reward programme must have its terms and eligibility confirmed.
+</p>
+<a href="{{ url_for('dashboard') }}" class="btn btn-outline">← Back to Dashboard</a>
+</section>
+</main>
+{% endblock %}

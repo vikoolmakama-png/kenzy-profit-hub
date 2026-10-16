@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Admin Login | Kenzy Profit Hub{% endblock %}
+{% block content %}
+<main class="container">
+<section class="dashboard" style="max-width:520px;margin:auto">
+<div class="badge">SECURE ADMIN AREA</div>
+<h1>Admin Login</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category, message in messages %}
+<div class="message {{ category }}">{{ message }}</div>
+{% endfor %}
+{% endwith %}
+
+<form method="POST">
+<label>Admin Username</label>
+<input type="text" name="username" autocomplete="username" required>
+
+<label>Admin Password</label>
+<input type="password" name="password" autocomplete="current-password" required>
+
+<button class="btn btn-primary" type="submit" style="width:100%;margin-top:20px">
+Log In to Admin
+</button>
+</form>
+</section>
+</main>
+{% endblock %}

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#07110b">
+    <title>{% block title %}Kenzy Profit Hub{% endblock %}</title>
+    <style>
+        :root {
+            --bg: #050906;
+            --panel: #0c1710;
+            --green: #20e878;
+            --green2: #0ba957;
+            --text: #f1fff5;
+            --muted: #94a99a;
+            --border: rgba(32,232,120,.17);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse at 15% 0%, rgba(12,169,87,.15), transparent 45%),
+                radial-gradient(ellipse at 90% 70%, rgba(32,232,120,.08), transparent 40%),
+                var(--bg);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 20px 7%;
+            border-bottom: 1px solid var(--border);
+            background: rgba(5,9,6,.85);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 19px;
+            font-weight: 800;
+            letter-spacing: -.5px;
+        }
+
+        .brand-icon {
+            display: grid;
+            place-items: center;
+            width: 39px;
+            height: 39px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--green), var(--green2));
+            color: #031008;
+            font-size: 21px;
+            box-shadow: 0 0 24px rgba(32,232,120,.2);
+        }
+
+        .brand span { color: var(--green); }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .nav-links a:hover { color: var(--green); }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 13px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .btn-primary {
+            color: #031008;
+            background: linear-gradient(135deg, #32f58a, #10c765);
+            border-color: transparent;
+            box-shadow: 0 5px 25px rgba(32,232,120,.13);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(32,232,120,.25);
+        }
+
+        .btn-outline { color: var(--green); }
+        .btn-outline:hover { background: rgba(32,232,120,.08); }
+
+        .container {
+            width: min(1100px, 90%);
+            margin: auto;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.15fr .85fr;
+            align-items: center;
+            gap: 45px;
+            min-height: 600px;
+            padding: 70px 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 9px 13px;
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            color: var(--green);
+            background: rgba(32,232,120,.05);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            margin: 22px 0;
+            font-size: clamp(39px, 6vw, 66px);
+            line-height: 1.08;
+            letter-spacing: -2.5px;
+        }
+
+        h1 span { color: var(--green); }
+
+        .hero p {
+            max-width: 520px;
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 1.9;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .hero-note {
+            margin-top: 24px;
+            color: #829789;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .visual {
+            position: relative;
+            padding: 30px;
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            background: linear-gradient(145deg, #102218, #09110b 70%);
+            box-shadow: 0 25px 80px rgba(0,0,0,.3);
+            overflow: hidden;
+        }
+
+        .visual:before {
+            content: "";
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            right: -80px;
+            top: -80px;
+            border-radius: 50%;
+            background: rgba(32,232,120,.13);
+            filter: blur(35px);
+        }
+
+        .visual-label {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .visual-title {
+            margin: 12px 0;
+            font-size: 29px;
+            font-weight: 800;
+        }
+
+        .visual-title span { color: var(--green); }
+
+        .chart {
+            display: flex;
+            align-items: end;
+            gap: 9px;
+            height: 155px;
+            margin: 28px 0;
+            padding: 0 5px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .bar {
+            flex: 1;
+            min-width: 0;
+            border-radius: 6px 6px 0 0;
+            background: linear-gradient(to top, #0b8f49, #32f58a);
+            opacity: .85;
+        }
+
+        .visual-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .visual-footer strong {
+            display: block;
+            margin-top: 8px;
+            color: var(--text);
+            font-size: 15px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            padding: 10px 0 70px;
+        }
+
+        .feature {
+            padding: 24px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: rgba(12,23,16,.65);
+        }
+
+        .feature-icon {
+            font-size: 25px;
+            margin-bottom: 14px;
+        }
+
+        .feature h3 { margin: 0 0 10px; font-size: 17px; }
+        .feature p { color: var(--muted); font-size: 13px; line-height: 1.8; }
+
+        .auth-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 48px 15px 65px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 460px;
+            padding: 32px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: rgba(12,23,16,.94);
+            box-shadow: 0 20px 70px rgba(0,0,0,.3);
+        }
+
+        .auth-card h1 {
+            margin: 10px 0;
+            font-size: 32px;
+            letter-spacing: -1px;
+        }
+
+        .auth-subtitle {
+            margin-bottom: 25px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .field { margin-bottom: 17px; }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #263a2d;
+            border-radius: 10px;
+            outline: none;
+            background: #07100a;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(32,232,120,.08);
+        }
+
+        input::placeholder { color: #637769; }
+
+        .full-width { width: 100%; margin-top: 8px; }
+
+        .auth-bottom {
+            margin-top: 22px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .auth-bottom a { color: var(--green); font-weight: 700; }
+
+        .message {
+            margin-bottom: 17px;
+            padding: 12px;
+            border-radius: 9px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .message.error {
+            color: #ffb5b5;
+            background: rgba(255,70,70,.09);
+            border: 1px solid rgba(255,70,70,.2);
+        }
+
+        .message.success {
+            color: var(--green);
+            background: rgba(32,232,120,.08);
+            border: 1px solid var(--border);
+        }
+
+        .dashboard {
+            max-width: 750px;
+            margin: 60px auto;
+            padding: 30px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: var(--panel);
+        }
+
+        .dashboard h1 { font-size: 34px; letter-spacing: -1px; }
+
+        footer {
+            padding: 25px 15px;
+            border-top: 1px solid var(--border);
+            color: #75887a;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 760px) {
+            .navbar { padding: 15px 5%; }
+            .brand { font-size: 16px; }
+            .brand-icon { width: 35px; height: 35px; }
+            .nav-links { gap: 12px; font-size: 12px; }
+            .nav-links .btn { padding: 10px 12px; }
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 35px;
+                padding: 55px 0;
+            }
+            h1 { letter-spacing: -1.5px; }
+            .features { grid-template-columns: 1fr; }
+            .visual { padding: 23px; }
+            .auth-card { padding: 24px 20px; }
+        }
+
+        @media (max-width: 380px) {
+            .nav-links { gap: 8px; }
+            .nav-links .btn { padding: 9px; }
+            .brand { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a class="brand" href="{{ url_for('welcome') }}">
+            <div class="brand-icon">K</div>
+            <div>KENZY <span>PROFIT HUB</span></div>
+        </a>
+
+        <div class="nav-links">
+            <a href="{{ url_for('login') }}">Login</a>
+            <a class="btn btn-primary" href="{{ url_for('register') }}">Get Started</a>
+        </div>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container" style="padding-top:18px;">
+                {% for category, message in messages %}
+                    <div class="message {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    <footer>
+        <div>© 2026 Kenzy Profit Hub. All rights reserved.</div>
+        <div>Investing involves risk. Returns are not guaranteed.</div>
+    </footer>
+</body>
+</html>

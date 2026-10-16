@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard | Kenzy Profit Hub{% endblock %}
+{% block content %}
+<main class="container">
+<section class="dashboard" style="max-width:1200px">
+<div class="badge">ADMIN CONTROL PANEL</div>
+<h1>Kenzy Admin Dashboard</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category, message in messages %}
+<div class="message {{ category }}">{{ message }}</div>
+{% endfor %}
+{% endwith %}
+
+<div class="features" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+<div class="feature">
+<h3>Total Users</h3>
+<h2 style="color:var(--green)">{{ users|length }}</h2>
+</div>
+<div class="feature">
+<h3>Pending Requests</h3>
+<h2 style="color:var(--green)">{{ pending_count }}</h2>
+</div>
+</div>
+
+<h2>Registered Users</h2>
+<div class="feature" style="overflow-x:auto">
+<table style="width:100%;border-collapse:collapse;text-align:left">
+<thead>
+<tr><th style="padding:10px">ID</th><th style="padding:10px">Name</th>
+<th style="padding:10px">Username</th><th style="padding:10px">Phone</th>
+<th style="padding:10px">Balance</th></tr>
+</thead>
+<tbody>
+{% for user in users %}
+<tr>
+<td style="padding:10px">{{ user["id"] }}</td>
+<td style="padding:10px">{{ user["full_name"] }}</td>
+<td style="padding:10px">{{ user["username"] }}</td>
+<td style="padding:10px">{{ user["phone"] }}</td>
+<td style="padding:10px">₦{{ "{:,.2f}".format(balances[user["id"]]) }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+<h2>Deposit & Withdrawal Requests</h2>
+<div class="feature" style="overflow-x:auto">
+<table style="width:100%;border-collapse:collapse;text-align:left">
+<thead>
+<tr>
+<th style="padding:10px">User</th><th style="padding:10px">Type</th>
+<th style="padding:10px">Amount</th><th style="padding:10px">Details</th>
+<th style="padding:10px">Status</th><th style="padding:10px">Date</th>
+<th style="padding:10px">Action</th>
+</tr>
+</thead>
+<tbody>
+{% for tx in transactions %}
+<tr>
+<td style="padding:10px">{{ tx["username"] or ("User #" ~ tx["user_id"]) }}</td>
+<td style="padding:10px">{{ tx["kind"] }}</td>
+<td style="padding:10px">₦{{ "{:,.2f}".format(tx["amount"]|float) }}</td>
+<td style="padding:10px;overflow-wrap:anywhere">{{ tx["details"] or "—" }}</td>
+<td style="padding:10px">{{ tx["status"] }}</td>
+<td style="padding:10px">{{ tx["created_at"] }}</td>
+<td style="padding:10px">
+{% if tx["status"]|lower == "pending" %}
+<form method="POST" action="{{ url_for('admin_transaction_action', transaction_id=tx['id'], action='approve') }}">
+<button class="btn btn-primary" type="submit">Approve</button>
+</form>
+<form method="POST" action="{{ url_for('admin_transaction_action', transaction_id=tx['id'], action='reject') }}" style="margin-top:8px">
+<button class="btn btn-outline" type="submit">Reject</button>
+</form>
+{% else %}
+Processed
+{% endif %}
+</td>
+</tr>
+{% else %}
+<tr><td colspan="7" style="padding:12px">No transactions found.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+<a href="{{ url_for('admin_logout') }}" class="btn btn-outline">Admin Logout</a>
+</section>
+</main>
+{% endblock %}

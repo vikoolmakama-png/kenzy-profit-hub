@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account | Kenzy Profit Hub{% endblock %}
+
+{% block content %}
+<div class="auth-wrap">
+    <div class="auth-card">
+        <div class="badge">JOIN KENZY PROFIT HUB</div>
+        <h1>Create Your <span style="color:var(--green)">Account</span></h1>
+        <p class="auth-subtitle">
+            Register to get started. Fill in your details below.
+        </p>
+
+        <form method="POST" action="{{ url_for('register') }}">
+            <div class="field">
+                <label for="full_name">Full Name *</label>
+                <input id="full_name" name="full_name" type="text"
+                       placeholder="Enter your full name" autocomplete="name"
+                       maxlength="100" required>
+            </div>
+
+            <div class="field">
+                <label for="username">Username *</label>
+                <input id="username" name="username" type="text"
+                       placeholder="Choose a username" autocomplete="username"
+                       minlength="3" maxlength="30"
+                       pattern="[A-Za-z0-9_]+" required>
+            </div>
+
+            <div class="field">
+                <label for="phone">Phone Number *</label>
+                <input id="phone" name="phone" type="tel"
+                       placeholder="e.g. 08012345678" autocomplete="tel"
+                       maxlength="16" required>
+            </div>
+
+            <div class="field">
+                <label for="referral_code">Referral Code (Optional)</label>
+                <input id="referral_code" name="referral_code" type="text"
+                       placeholder="Enter referral code if you have one"
+                       maxlength="50">
+            </div>
+
+            <div class="field">
+                <label for="password">Password *</label>
+                <input id="password" name="password" type="password"
+                       placeholder="At least 8 characters"
+                       autocomplete="new-password" minlength="8" required>
+            </div>
+
+            <div class="field">
+                <label for="confirm_password">Confirm Password *</label>
+                <input id="confirm_password" name="confirm_password"
+                       type="password" placeholder="Enter password again"
+                       autocomplete="new-password" minlength="8" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary full-width">
+                Create My Account →
+            </button>
+        </form>
+
+        <div class="auth-bottom">
+            Already have an account?
+            <a href="{{ url_for('login') }}">Log in</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

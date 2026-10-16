@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Transaction History | Kenzy Profit Hub{% endblock %}
+{% block content %}
+<main class="container">
+<section class="dashboard" style="max-width:1100px">
+<div class="badge">ACCOUNT ACTIVITY</div>
+<h1>Transaction History</h1>
+<p style="color:var(--muted)">Your latest deposit, withdrawal and investment requests.</p>
+
+<div class="feature" style="overflow-x:auto">
+{% if transactions %}
+<table style="width:100%;border-collapse:collapse;text-align:left">
+<thead>
+<tr>
+<th style="padding:12px">Type</th>
+<th style="padding:12px">Amount</th>
+<th style="padding:12px">Details</th>
+<th style="padding:12px">Status</th>
+<th style="padding:12px">Date</th>
+</tr>
+</thead>
+<tbody>
+{% for tx in transactions %}
+<tr>
+<td style="padding:12px">{{ tx["kind"]|title }}</td>
+<td style="padding:12px">₦{{ "{:,.2f}".format(tx["amount"]|float) }}</td>
+<td style="padding:12px">{{ tx["details"] or "—" }}</td>
+<td style="padding:12px">{{ tx["status"]|title }}</td>
+<td style="padding:12px">{{ tx["created_at"] }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<p>No transactions yet. Your requests will appear here.</p>
+{% endif %}
+</div>
+
+<a href="{{ url_for('dashboard') }}" class="btn btn-outline">← Back to Dashboard</a>
+</section>
+</main>
+{% endblock %}
