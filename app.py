@@ -456,12 +456,13 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        phone = request.form.get("phone", "").strip()
+        username = request.form.get("username", "").strip()
         password = request.form.get("password", "")
 
         conn = db()
         user = conn.execute(
-            "SELECT * FROM users WHERE phone = ?", (phone,)
+            "SELECT * FROM users WHERE lower(username) = lower(?)",
+            (username,)
         ).fetchone()
         conn.close()
 
@@ -470,7 +471,7 @@ def login():
             session["user_id"] = user["id"]
             return redirect(url_for("dashboard"))
 
-        flash("Incorrect phone number or password.", "error")
+        flash("Incorrect username or password.", "error")
         return redirect(url_for("login"))
 
     return render_template("login.html")
@@ -536,7 +537,7 @@ def dashboard():
                FROM transactions
                WHERE user_id = ?
                  AND lower(status) = 'pending'
-                 AND lower(kind) LIKE '%withdraw%'""",
+                 AND lower(kind) LIKE '%%withdraw%%'""",
             (user_id,)
         ).fetchone()[0]
 
