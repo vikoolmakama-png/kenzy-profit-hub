@@ -351,7 +351,9 @@ def register():
         return redirect(url_for("register"))
 
     conn = db()
+    registration_step = "starting registration"
     try:
+        registration_step = "starting database transaction"
         conn.execute("BEGIN IMMEDIATE")
 
         inviter = None
@@ -369,6 +371,7 @@ def register():
 
         inviter_id = inviter["id"] if inviter else None
 
+        registration_step = "inserting user"
         cursor = conn.execute(
             """INSERT INTO users
                (name, full_name, username, email, phone, referral_code,
@@ -388,12 +391,14 @@ def register():
         new_user_id = cursor.lastrowid
         own_code = f"KPH{new_user_id:05d}"
 
+        registration_step = "setting referral code"
         conn.execute(
             "UPDATE users SET referral_code = ? WHERE id = ?",
             (own_code, new_user_id)
         )
 
         # Credit the welcome bonus exactly once.
+        registration_step = "creating welcome bonus transaction"
         bonus_cursor = conn.execute(
             """INSERT INTO transactions
                (user_id, kind, amount, details, status)
@@ -404,12 +409,14 @@ def register():
             )
         )
 
+        registration_step = "recording welcome bonus"
         conn.execute(
             """INSERT INTO welcome_bonuses (user_id, transaction_id)
                VALUES (?, ?)""",
             (new_user_id, bonus_cursor.lastrowid)
         )
 
+        registration_step = "committing registration"
         conn.commit()
         session.pop("pending_referral_code", None)
 
@@ -428,7 +435,7 @@ def register():
                 "error"
             )
         else:
-            app.logger.exception("Registration database constraint failed")
+            app.logger.exception("Registration database constraint failed at step: %s", registration_step)
             flash(
                 "Registration failed because of a database constraint. Please try again.",
                 "error"
