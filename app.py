@@ -371,12 +371,14 @@ def register():
 
         cursor = conn.execute(
             """INSERT INTO users
-               (full_name, username, phone, referral_code,
+               (name, full_name, username, email, phone, referral_code,
                 password, referred_by)
-               VALUES (?, ?, ?, '', ?, ?)""",
+               VALUES (?, ?, ?, ?, ?, '', ?, ?)""",
             (
                 full_name,
+                full_name,
                 username,
+                f"{username}@kenzy.local",
                 phone,
                 generate_password_hash(password),
                 inviter_id,
@@ -418,12 +420,19 @@ def register():
         )
         return redirect(url_for("login"))
 
-    except psycopg.IntegrityError:
+    except psycopg.IntegrityError as e:
         conn.rollback()
-        flash(
-            "That username or phone number is already registered.",
-            "error"
-        )
+        if getattr(e, "sqlstate", None) == "23505":
+            flash(
+                "That username or phone number is already registered.",
+                "error"
+            )
+        else:
+            app.logger.exception("Registration database constraint failed")
+            flash(
+                "Registration failed because of a database constraint. Please try again.",
+                "error"
+            )
         return redirect(url_for("register"))
 
     except Exception:
