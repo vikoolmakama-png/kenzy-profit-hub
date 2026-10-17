@@ -31,6 +31,9 @@ class HybridRow(dict):
 
 
 def hybrid_row_factory(cursor):
+    if cursor.description is None:
+        return lambda values: values
+
     names = [column.name for column in cursor.description]
 
     def make_row(values):
